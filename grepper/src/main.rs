@@ -1,29 +1,24 @@
 use std::env;
-use std::fs;
+use std::process;
+
+use grepper::Config;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let config = parse_configs(&args);
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        println!("Problems with arguments: {}", err);
+        process::exit(1);
+    });
 
     println!("Searching for {}", config.query);
     println!("In file {}", config.filename);
 
-    let contents: String = fs::read_to_string(config.filename).expect("Unable to read from file");
+    if let Err(e) = grepper::run(config) {
+        println!("Application error: {}", e);
 
-    println!("Contents are as follows:\n\n{}", contents);
-}
-
-struct Config<'a> {
-    query: &'a String,
-    filename: &'a String,
-}
-
-fn parse_configs(args: &[String]) -> Config {
-    let query = &args[1];
-    let filename = &args[2];
-
-    Config { query, filename }
+        process::exit(1);
+    };
 }
 
 #[cfg(test)]
