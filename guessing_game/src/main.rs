@@ -3,20 +3,17 @@ use std::cmp::Ordering;
 use std::io::stdin;
 
 fn main() {
-
-
     let age: Option<i8> = Some(12);
 
     match age {
         Some(age) => {
             if age >= 18 {
                 println!("Can have beer");
+            } else {
+                println!("Can't have beer, only {}", age)
             }
-            else {
-                println!("Can;t have beer, only {}", age)
-            }
-        },
-        None => println!("Uhh")
+        }
+        None => println!("Uhh"),
     }
 
     println!("Guess the number!");
@@ -33,12 +30,15 @@ fn main() {
 
         stdin().read_line(&mut guess).expect("Failed to read line");
 
-        println!("You guessed: {}", guess);
-
         let guess = match guess.trim().parse::<u32>() {
             Ok(num) => num,
-            Err(_) => continue,
+            Err(_) => {
+                println!("That wasn't a number! Try again.");
+                continue;
+            }
         };
+
+        println!("You guessed: '{}'", guess);
 
         match guess.cmp(&secret_number) {
             Ordering::Less => println!("Too small!"),
