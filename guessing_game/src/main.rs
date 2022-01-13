@@ -2,6 +2,15 @@ use rand::Rng;
 use std::cmp::Ordering;
 use std::io::stdin;
 
+/// Does a thing.
+///
+/// # Examples
+///
+/// ```
+/// let mut st = String::from("dsdsd");
+///
+/// assert_eq!("dsdsd", st);
+/// ```
 fn main() {
     let age: Option<i8> = Some(12);
 
