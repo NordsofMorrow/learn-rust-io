@@ -8,6 +8,7 @@ pub struct Config {
     pub case_sensitive: bool,
 }
 
+/// Handler Config.
 impl Config {
     pub fn new(mut args: env::Args) -> Result<Config, &'static str> {
         args.next();
@@ -32,6 +33,7 @@ impl Config {
     }
 }
 
+/// Runs the query over the body of text.
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents: String = fs::read_to_string(config.filename)?;
 
@@ -48,6 +50,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+/// Searches for an exact case string.
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     contents
         .lines()
@@ -55,6 +58,7 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
         .collect()
 }
 
+/// Searches for a case insensitive string.
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let query = query.to_lowercase();
 
